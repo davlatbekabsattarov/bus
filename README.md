@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -72,14 +73,6 @@ void getname()
         }
     }
 }
-void Greeting()
-{
-    system("cls");
-    cout << setfill('_') << setw(121) << '\n' << endl;
-    cout << setfill(' ') << setw(70) << "Welcome to Delta!" << endl;
-    cout << setfill('_') << setw(121) << '\n' << endl;
-    cout << endl;
-}
 void InputDestination()
 {
     bool correct = false;
@@ -121,7 +114,7 @@ void InputDestination()
         }
         if (available == false)
         {
-            cout << "Unfortunately we don't fly to this destination." << endl;
+            cout << "Unfortunately we don't travel to this destination." << endl;
             cout << "Choose another one." << endl;
 
             correct = false;
@@ -145,8 +138,6 @@ void InputDate()
         string input;
         cin >> input;
 
-        //checking input
-        //Checking date for typo or for existence
         if (input.length() == 1)
         {
             input += input[0];
@@ -162,7 +153,7 @@ void InputDate()
         if (correct == false)
             cout << "Please, enter valid date." << endl;
         else
-            cout << input << ".05.22" << endl;
+            ::date = input + ".05.22";
     }
 }
 
@@ -222,29 +213,53 @@ void seat_map(char seats[ROWS][SEATS])
     }
     return;
 }
-class Person
+
+void ShowProgress()
 {
-private:
+    system("cls");
+    cout << right << setfill('_') << setw(121) << '\n' << endl;
+    cout << setfill(' ') << setw(75) << "Order" << endl;
+    cout << setfill('_') << setw(121) << '\n' << endl;
+    if (destination != "")
+        cout << "Destination: " << destination << " " << endl;
 
-
+    if (date != "")
+        cout << "Date: " << date << " " << endl;
+    if (name != "")
+        cout << "Name: " << name << " " << endl;
+}
+class Bus
+{
 public:
-
-    friend void getData();
-    friend void InputDestination();
-    friend void ShowDestinations();
-    friend void Reserve_seat();
-
+    
+    void Greeting()
+    {
+        system("cls");
+        cout << setfill('_') << setw(121) << '\n' << endl;
+        cout << setfill(' ') << setw(70) << "Welcome to Delta!" << endl;
+        cout << setfill('_') << setw(121) << '\n' << endl;
+        cout << endl;
+    }
 
 };
+
+
+
+
 void getData()
 {
-    
     getname();
+    ShowProgress();
     InputDestination();
+    ShowProgress();
     InputDate();
+    ShowProgress();
+    
 }
-void Reserve_seat()
-{
+
+
+
+void Reserve_seat(){
 
     char section[ROWS][SEATS] = { 0 };
     unsigned int i = 0, j = 0, row = 0, seat = 0, seats_avialable = 0;
@@ -269,6 +284,8 @@ void Reserve_seat()
         cout << setfill('*') << setw(121) << '\n' << endl;
         cout << "You should pay shown amount of money within 2 days or your purchase will be cancelled" << endl;
         cout << endl;
+        cout << "All buses arrives at 12:00" << endl;
+        cout << endl;
         cout << "There are " << seats_avialable << " seats avialable." << endl;
         cout << endl;
         cout << "Select your Seat" << endl << endl;
@@ -281,35 +298,79 @@ void Reserve_seat()
             section[row - 1][seat - 1] = 'X';
             seats_avialable--;
             getData();
+            
             cout << "You purchased seat " << seat << " in row " << row << endl
-                << "Thank you for your order" << endl << endl;
+               << "Thank you for your order" << endl << endl;
+            
         }
         else
         {
-            cout << "Sorry the seat is almost reserved " << endl;
+            cout << "Sorry the seat is not avialable " << endl;
         }
         cout << endl << "Do you want to buy another ticket?" << endl;
         cin >> answer;
-        
+
     }
-    
+
 
 }
-
-void writeFile(Person& p)
+void ShowTicket()
 {
-    ofstream ofile("Person.dat", ios::binary | ios::app);
+    system("cls");
+    cout << right << setfill('_') << setw(121) << '\n' << endl;
+    cout << setfill(' ') << setw(65) << "Online ticket." << endl;
+    cout << setfill('_') << setw(121) << '\n' << endl;
+
+    cout << setfill(' ') << setw(10) << char(218) << setfill(char(196)) << setw(70) << char(210) << setw(30) << char(191) << endl;
+    cout << setfill(' ') << setw(10) << char(179) << setw(40) << "Delta" << setw(30) << char(186) << setw(20) << "Delta" << setw(10) << char(179) << endl;
+    cout << setfill(' ') << setw(10) << char(195) << setfill(char(196)) << setw(70) << char(215) << setw(30) << char(180) << endl;
+
+    //Every single "cout" in line is printing only one line 
+    cout << setfill(' ') << right << setw(10) << char(179) << setw(70) << char(186) << setw(30) << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(20) << "Passenger name: " << left << setw(49) << name << char(186) << right << setw(10) << "Date: " << left << setw(19) << date << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(20) << "Bus number: " << left << setw(49) << "10" << char(186) << right << setw(30) << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(70) << char(186) << right << setw(10) << "Station: " << left << setw(19) << "5-bekat" << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(20) << "From: " << left << setw(10) << "TASHKENT" << right << setw(10) << "To: " << left << setw(10) << destination << right << setw(20) << char(186) << setw(30) << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(70) << char(186) << right << setw(10) << "Time " << left << setw(19) << "12:00" << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(20) << "Date: " << setw(20) << "Row: " << setw(20) << "Seat: " << setw(10) << char(186) << setw(30) << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(25) << date << setw(15) << ROWS<< setw(20) << SEATS<< setw(10) << char(186) << right << setw(10) << "To: " << left << setw(19) << destination << char(179) << endl;
+    cout << right << setw(10) << char(179) << setw(70) << char(186) << setw(30) << char(179) << endl;
+    cout << setfill(' ') << setw(10) << char(192) << setfill(char(196)) << setw(70) << char(208) << setw(30) << char(217) << endl;
+}
+
+void writeFile(Bus& p)
+{
+    ofstream ofile("Bus.dat", ios::binary | ios::app);
     
     Reserve_seat();
+    
     ofile.write((char*)(&p), sizeof(p));
     ofile.close();
 }
-
-     
- int main()
+void readFile(Bus& p)
 {
-     Person p;
-     Greeting();
-     writeFile(p);
+    ifstream ifile("Bus.dat", ios::binary | ios::beg);
+    ifile.seekg(0, ios::beg);
+    while (ifile.read((char*)(&p), sizeof(p)))
+    {
+        ShowTicket();
+    }
+    ifile.close();
+}
+void clearFile()
+{
+    ofstream fin("Bus.dat", ios::binary | ios::trunc);
+}
 
+int main()
+{
+     Bus p;
+     clearFile();
+     system("color e4");
+     p.Greeting();
+     writeFile(p);
+     readFile(p);
+     system("pause");
+     return 0;
+     
 }
